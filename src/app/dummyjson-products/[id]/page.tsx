@@ -10,22 +10,24 @@ import { INITIAL_PRODUCT_DATA, PRODUCT } from '@/lib/data';
 import { Product2 } from '../../../../types';
 import { getDummyJsonProductById } from '@/api';
 import { Button } from '@/components/ui/button';
-import { Heart, ShoppingCart, Star, StarHalf } from 'lucide-react';
+import { Heart, Minus, Plus, ShoppingCart, Star, StarHalf } from 'lucide-react';
 import { toast } from 'sonner';
 import DiscountCardTwo from '@/components/footer/DiscountCardTwo';
+import { useEcommerceStore } from '../../../../product-store';
 
 const SingleProduct = () => {  
   const [product, setProduct] = useState<Product2>(INITIAL_PRODUCT_DATA); // Single product
   const [currentImage, setCurrentImage] = useState<string>('/images/imagePlaceholder.jpeg');
-  // const {addToCart, isProductInCart, increaseProductQuantity, decreaseProductQuantity, getProductQuantity} = useCart();
-  // const {toggleWishlistBtn, isProductInWishlist} = useWishlist();
-  // const {userInfo} = useUserForm();
-  // const router = useRouter();
-  
-  // const pathName = usePathname();
-  // console.log("pathName: ", pathName);
-
-  // if(!userInfo) router.push('/users/auth/register');
+  const {
+    addToCart,
+    removeFromCart,
+    toggleWishlistBtn,
+    isProductInWishlist,
+    isProductInCart,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    getProductQuantity
+  } = useEcommerceStore();
 
   const { id } = useParams();
 //   console.log("id: ", id);
@@ -55,9 +57,9 @@ const SingleProduct = () => {
     // return <p>Loading...</p>;
   // }
 
-  useEffect(() => {
-    setProduct(PRODUCT);
-  }, []);
+  // useEffect(() => {
+  //   setProduct(PRODUCT);
+  // }, []);
 
   const handleProductImagesViews = (id: number | string, image: string) => {
     if (id) {
@@ -88,6 +90,8 @@ const SingleProduct = () => {
       decimalPart: parseInt(decimalPart, 10) 
     };
   };
+  
+  const price = formatPrice(product.price);
 
   return (
     <section className='px-4 md:px-[85px] lg:px-[60px] xl:px-[85px] md:pt-1'>
@@ -156,7 +160,7 @@ const SingleProduct = () => {
                     </span>
                   </div>
 
-                  <p className='text-3xl font-semibold text-primary'>${formatPrice(product.price).integerPart}.<sup>{formatPrice(product.price).decimalPart}</sup></p>
+                  <p className='text-3xl font-semibold text-primary'>₦{price.integerPart}.<sup>{price.decimalPart}</sup></p>
                 </div>
                 
                 <div className="self-center space-y-1">
@@ -175,52 +179,84 @@ const SingleProduct = () => {
 
               <div className="flex flex-col gap-8 border-y md:border-y lg:border-y-0 xl:border-y border-l-0 lg:border-l xl:border-l-0 pl-0 lg:pl-3 xl:pl-0 py-6 text-xs md:text-sm">
                 <div className="flex items-center gap-4 md:gap-7 flex-wrap">
-                  <Button 
-                    variant={'ghost'}
-                    // onClick={() => {
-                    //   if (isProductInWishlist(product.id)) {
-                    //     toggleWishlistBtn(product);
-                    //   }
-                    //   addToCart(product);
-                    // }}
+                  <Button
+                    variant={"ghost"}
                     onClick={() => {
-                      toast.promise<{ name: string }>(
-                        () =>
-                          new Promise((resolve) =>
-                              setTimeout(() => resolve({ name: product?.title }), 1000)
-                          ),
+                      toast.promise(
+                        new Promise<{ name: string }>((resolve) => {
+                          addToCart(product);
+
+                          resolve({ name: product.title });
+                        }),
                         {
-                          loading: "Loading...",
+                          loading: "Adding to cart...",
                           success: (data) => `${data.name} has been added to cart.`,
-                          error: "Error",
+                          error: "Error adding to cart",
                         }
-                      )
+                      );
                     }}
-                    className={`flex items-center justify-center gap-2 bg-[#cee1af90] hover:bg-[#cee1af90] text-primary hover:text-primary font-bold rounded-full py-[11px] px-[27px] hover:cursor-pointer shadow-md hover:shadow-sm`} 
-                    // className={`${isProductInCart(product.id) ? 'hidden' : 'flex items-center justify-center gap-2 md:gap-3'} bg-[#cee1af90] text-primary font-bold rounded-full py-[11px] px-[27px] hover:cursor-pointer shadow-md hover:shadow-sm`} 
+                    className={`${
+                      isProductInCart(product.id) ? "hidden" : "flex"
+                    } items-center justify-center gap-2 cursor-pointer bg-[#cee1af90] text-primary font-bold rounded-full py-[11px] px-[27px] shadow-md`}
                   >
-                    <ShoppingCart className='h-4 w-4 md:h-5 md:w-5' />
+                    <ShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
                     Add to cart
                   </Button>
-                  {/* <div className={`${isProductInCart(product.id) ? 'flex items-center justify-around gap-3' : 'hidden'} bg-yellowish py-[6px] px-[20px] rounded-full shadow-md`} >
-                    <Button onClick={() => decreaseProductQuantity(product.id)} icon1={<Remove/>} classes="p-1 bg-white hover:bg-yellowish_hover text-primary rounded-full" />
-                    <p className='text-2xl w-10 text-center'>{getProductQuantity(product.id)}</p>
-                    <Button onClick={() => increaseProductQuantity(product.id)} icon1={<Add/>} classes="p-1 bg-white hover:bg-yellowish_hover text-primary rounded-full" />
-                  </div> */}
-                  <Button 
-                    variant={'ghost'}
-                    // onClick={() => {
-                    //   if (!isProductInCart(product.id)) {
-                    //     toggleWishlistBtn(product);
-                    //   } else {
-                    //     alert("This product is already in cart.");
-                    //   }
-                    // }} 
-                    className="gap-2 font-bold hover:cursor-pointer underline uppercase md:pr-7 rounded-full" 
+                  <div
+                    className={`${
+                      isProductInCart(product.id)
+                        ? "flex items-center justify-around gap-3"
+                        : "hidden"
+                    } bg-yellowish py-0.5 px-3 rounded-full shadow-md`}
                   >
-                    {/* {isProductInWishlist(product.id) ? <Favorite className="text-red-700" /> : <FavoriteBorder />} */}
-                    <Heart className="text-red-700" />
-                    Add to favorite
+                    <Minus 
+                      onClick={() => decreaseProductQuantity(product.id)}
+                      className='cursor-pointer text-primary'
+                    />
+
+                    <p className="text-xl w-10 text-center">
+                      {getProductQuantity(product.id)}
+                    </p>
+
+                    <Plus 
+                      onClick={() => increaseProductQuantity(product.id)}
+                      className='cursor-pointer text-primary'
+                    />
+                  </div>
+
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      const alreadyInWishlist = isProductInWishlist(product.id);
+
+                      toast.promise(
+                        new Promise<{ name: string }>((resolve) => {
+                          toggleWishlistBtn(product);
+
+                          resolve({ name: product.title });
+                        }),
+                        {
+                          loading: "Updating wishlist...",
+                          success: () =>
+                            alreadyInWishlist
+                              ? "Removed from wishlist."
+                              : "Added to wishlist.",
+                          error: "Error updating wishlist",
+                        }
+                      );
+                    }}
+                    className="gap-2 font-bold cursor-pointer underline uppercase md:pr-7 rounded-full"
+                  >
+                    <Heart
+                      className={`${
+                        isProductInWishlist(product.id)
+                          ? "fill-red-600 text-red-600"
+                          : "text-red-700"
+                      }`}
+                    />
+                    {isProductInWishlist(product.id)
+                      ? "Remove Favorite"
+                      : "Add to favorite"}
                   </Button>
                 </div>
               </div>

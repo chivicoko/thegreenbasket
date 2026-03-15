@@ -25,17 +25,30 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from 'sonner';
 import { products } from '@/lib/data';
+import { useEcommerceStore } from '../../../product-store';
 
 const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) => {
   const router = useRouter();
 
   // const {userInfo, } = useUserForm();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-
-  // const {totalCount} = useCart();
-  // const {totalWishlistCount} = useWishlist();
-
   const toggleMobileNav = () => setIsMobileNavOpen((prev) => !prev);
+
+  const {
+    cart,
+    removeFromCart,
+    wishlist,
+    totalCartCount,
+    totalWishlistCount,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    getProductQuantity,
+    removeFromWishlist,
+    clearCart,
+    clearWishlist,
+    addWishlistToCart,
+    getTotalPrice,
+  } = useEcommerceStore();
 
   return (    
     <nav className={`z-30 ${firstDivClasses}`}>
@@ -81,10 +94,10 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <Button 
                   className="bg-secondary hover:bg-secondary_hover cursor-pointer flex items-center justify-center p-1 md:p-2 text-primary rounded-full text-sm"
                 >
-                  <ShoppingBag className='h-4 w-4 md:h-6 md:w-6' />
+                  <Heart className='h-4 w-4 md:h-6 md:w-6' />
                 </Button>
                 <Badge className='absolute -top-2.5 -right-2 md:-top-2 md:-right-1 size-5 md:size-6 bg-white rounded-full text-black text-xs'>
-                  99
+                  {totalWishlistCount()}
                 </Badge>
               </div>
             </SheetTrigger>
@@ -93,10 +106,15 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <SheetTitle className='uppercase'>Shopping Wishlist</SheetTitle>
               </SheetHeader>
 
-              <div className="grid flex-1 auto-rows-min gap-6 px-4">
+              <div className="grid flex-1 auto-rows-min gap-6 px-4 overflow-y-scroll custom-scrollbar2">
                 <hr />
                 <div className="flex flex-col gap-2">
-                  {products.slice(0,3).map(product => 
+                  {wishlist.length === 0 && (
+                    <p className="text-sm text-muted-foreground text-center py-6">
+                      Your wishlist is empty.
+                    </p>
+                  )}
+                  {wishlist.length > 0 && wishlist.map(product => 
                     <React.Fragment key={product.id}>
                       <div className="w-full flex justify-between gap-2">
                         <div className="flex gap-2">
@@ -116,7 +134,10 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                         </div>
 
                         <div className='flex flex-col items-end justify-start gap-4'>
-                          <XIcon className="size-4 cursor-pointer" />
+                          <XIcon
+                            className="size-4 cursor-pointer"
+                            onClick={() => removeFromWishlist(product.id)}
+                          />
                         </div>
                       </div>
                       <hr />
@@ -132,18 +153,22 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                   type="submit" 
                   className='bg-secondary hover:bg-secondary_hover mt-2 font-bold text-l text-primary py-[11px] px-[27px] shadow-md cursor-pointer uppercase'
                   onClick={() => {
-                    toast.promise<{ name: string }>(
+                    toast.promise(
                       () =>
-                        new Promise((resolve) =>
-                            setTimeout(() => resolve({ name: "All items" }), 1000)
-                        ),
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            addWishlistToCart();
+                            resolve("done");
+                          }, 800);
+                        }),
                       {
                         loading: "Adding all items to cart...",
-                        success: (data) => `${data.name} added to cart.`,
+                        success: "All wishlist items added to cart.",
                         error: "Error",
                       }
-                    )
+                    );
                   }}
+                  disabled={wishlist.length === 0}
                 >
                   Add all to cart
                 </Button>
@@ -151,18 +176,22 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                   variant="outline" 
                   className='cursor-pointer uppercase'
                   onClick={() => {
-                    toast.promise<{ name: string }>(
+                    toast.promise(
                       () =>
-                        new Promise((resolve) =>
-                            setTimeout(() => resolve({ name: "Wishlist" }), 1000)
-                        ),
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            clearWishlist();
+                            resolve("done");
+                          }, 800);
+                        }),
                       {
                         loading: "Clearing wishlist...",
-                        success: (data) => `${data.name} has been cleared.`,
+                        success: "Wishlist has been cleared.",
                         error: "Error",
                       }
-                    )
+                    );
                   }}
+                  disabled={wishlist.length === 0}
                 >
                   Clear Wishlist
                 </Button>
@@ -184,7 +213,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                   <ShoppingBag className='h-4 w-4 md:h-6 md:w-6' />
                 </Button>
                 <Badge className='absolute -top-2.5 -right-2 md:-top-2 md:-right-1 size-5 md:size-6 bg-white rounded-full text-black text-xs'>
-                  99
+                  {totalCartCount()}
                 </Badge>
               </div>
             </SheetTrigger>
@@ -193,10 +222,15 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <SheetTitle className='uppercase'>Shopping Cart</SheetTitle>
               </SheetHeader>
 
-              <div className="grid flex-1 auto-rows-min gap-6 px-4">
+              <div className="grid flex-1 auto-rows-min gap-6 px-4 overflow-y-scroll custom-scrollbar2">
                 <hr />
                 <div className="flex flex-col gap-2">
-                  {products.slice(0,3).map(product => 
+                  {cart.length === 0 && (
+                    <p className="text-sm text-muted-foreground text-center py-6">
+                      Your cart is empty.
+                    </p>
+                  )}
+                  {cart.length > 0 && cart.map(product => 
                     <React.Fragment key={product.id}>
                       <div className="w-full flex justify-between gap-2">
                         <div className="flex gap-2">
@@ -216,11 +250,14 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                         </div>
 
                         <div className='flex flex-col items-end justify-start gap-4'>
-                          <XIcon className="size-4 cursor-pointer" />
+                          <XIcon
+                            className="size-4 cursor-pointer"
+                            onClick={() => removeFromCart(product.id)}
+                          />
                           <div className='border py-1 px-2 flex items-center gap-4'>
-                            <Minus className='size-4 cursor-pointer' />
-                            <span className='text-sm font-medium'>4</span>
-                            <Plus className='size-4 cursor-pointer' />
+                            <Minus onClick={() => decreaseProductQuantity(product.id)} className='size-4 cursor-pointer' />
+                            <span className='text-sm font-medium'>{getProductQuantity(product.id)}</span>
+                            <Plus onClick={() => increaseProductQuantity(product.id)} className='size-4 cursor-pointer' />
                           </div>
                         </div>
                       </div>
@@ -235,12 +272,14 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <hr className='py-2' />
                 <div className=" pt-1 pb-2 flex items-center justify-between">
                   <p className='font-semibold'>Subtotal</p>
-                  <p className='font-bold'>₦210,000.00</p>
+                  {/* <p className='font-bold'>₦{getTotalPrice() ?? `210,000.00`}</p> */}
+                  <p className='font-bold'>₦{getTotalPrice()}</p>
                 </div>
                 <Button 
                   type="submit" 
                   className='bg-secondary hover:bg-secondary_hover mt-2 font-bold text-l text-primary py-[11px] px-[27px] shadow-md cursor-pointer uppercase'
                   onClick={() => router.push('/checkout')}
+                  disabled={cart.length === 0}
                 >
                   Checkout
                 </Button>
@@ -248,18 +287,22 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                   variant="outline" 
                   className='cursor-pointer uppercase'
                   onClick={() => {
-                    toast.promise<{ name: string }>(
+                    toast.promise(
                       () =>
-                        new Promise((resolve) =>
-                            setTimeout(() => resolve({ name: "Cart" }), 1000)
-                        ),
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            clearCart();
+                            resolve("done");
+                          }, 800);
+                        }),
                       {
                         loading: "Clearing cart...",
-                        success: (data) => `${data.name} has been cleared.`,
+                        success: "Cart has been cleared.",
                         error: "Error",
                       }
-                    )
+                    );
                   }}
+                  disabled={cart.length === 0}
                 >
                   Clear Cart
                 </Button>
