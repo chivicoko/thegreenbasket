@@ -1,0 +1,16 @@
+[
+  {
+    "id": "u_admin",
+    "name": "Alice Admin",
+    "email": "admin@example.com",
+    "passwordHash": "$2a$10$q7kB5C6zC1m8c3Hf0Sg2uO3k3Y4x1gGf8b3o7s4m5n6p7q8r9s0tu",
+    "role": "admin"
+  },
+  {
+    "id": "u_cust",
+    "name": "Bob Customer",
+    "email": "customer@example.com",
+    "passwordHash": "$2a$10$q7kB5C6zC1m8c3Hf0Sg2uO3k3Y4x1gGf8b3o7s4m5n6p7q8r9s0tu",
+    "role": "customer"
+  }
+]
