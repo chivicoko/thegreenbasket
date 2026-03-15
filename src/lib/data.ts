@@ -16,9 +16,9 @@ export const categories = [
 
 export const discountCard2 = [
     { id: 1, color1: 'text-orange-950', color2: 'text-orange-800', bgColor1: '#fee2e2', bgColor2: 'bg-orange-950', text1: 'Save', text2extra: '$', text2: '29', text3: 'Enjoy discount for all types of groceries and frozen items', img: "/images/spinach.jpeg" },
-    { id: 2, color1: 'text-blue-950', color2: 'text-blue-800', bgColor1: '#dbeafe', bgColor2: 'bg-blue-950', text1: 'Discount', text2extra: '%', text2: '30', text3: "Enjoy discount for all types of groceries and frozen items", img: "/images/milk.jpeg" },
+    { id: 2, color1: 'text-blue-950', color2: 'text-blue-900', bgColor1: '#dbeafe', bgColor2: 'bg-blue-950', text1: 'Discount', text2extra: '%', text2: '30', text3: "Enjoy discount for all types of groceries and frozen items", img: "/images/milk.jpeg" },
     { id: 3, color1: 'text-orange-950', color2: 'text-orange-800', bgColor1: '#f3e8ff', bgColor2: 'bg-orange-950', text1: 'Up to', text2extra: '%', text2: '50', text3: 'Enjoy discount for all types of groceries and frozen items', img: "/images/chicken.png" },
-    { id: 4, color1: 'text-blue-950', color2: 'text-blue-800', bgColor1: '#ecfccb', bgColor2: 'bg-blue-950', text1: 'Free', text2extra: '', text2: 'SHIP', text3: "Enjoy discount for all types of groceries and frozen items", img: "/images/fish.jpeg" },
+    { id: 4, color1: 'text-blue-950', color2: 'text-blue-900', bgColor1: '#ecfccb', bgColor2: 'bg-blue-950', text1: 'Free', text2extra: '', text2: 'SHIP', text3: "Enjoy discount for all types of groceries and frozen items", img: "/images/fish.jpeg" },
 ];
 
 export const extraImages = [

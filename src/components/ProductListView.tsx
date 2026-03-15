@@ -84,10 +84,12 @@ const ProductListView = ({products}: ProductViewProps) => {
                       //     alert("This product is already in cart.");
                       //   }
                       // }} 
-                      className="rounded-full text-sm" 
+                      onClick={() => toast(`${product.title} added successfully.`)}
+                      variant={'ghost'}
+                      className="cursor-pointer flex items-center justify-center rounded-full text-sm" 
                     >
                       {/* {isProductInWishlist(product.id) ? <Favorite className="text-red-700" /> : <FavoriteBorder />} */}
-                      <Heart />
+                      <Heart className='size-5' />
                     </Button>
                   </div>
 

@@ -1,11 +1,7 @@
 'use client';
 
 import React from 'react';
-// import DiscountCard from '../DiscountCard';
-// import ProductsJustForYou from '../ProductsJustForYou';
-// import ProductsFromDummyJson from '../ProductsFromDummyJson';
 import { usePathname } from 'next/navigation';
-// import WeeklyBestSellingProducts from '../WeeklyBestSellingProducts';
 import Image from 'next/image';
 import DiscountCard from './DiscountCard';
 import ProductsJustForYou from './ProductsJustForYou';

@@ -7,6 +7,7 @@ import { Product2 } from '../../types';
 import { getProducts } from '@/api';
 import { Button } from './ui/button';
 import ProductCard from './ProductCard';
+import FullPagination from './FullPagination';
 // import FullPagination from './pagination/FullPagination';
 // import Button from './button/Button';
 // import { Product2 } from '@/utils/types';
@@ -88,7 +89,7 @@ const Products: React.FC = () => {
           }
         </div>
 
-        {/* {pathName === '/products' &&
+        {pathName === '/products' &&
           <FullPagination
             productsPerPage={productsPerPage}
             handleRowsPerPageChange={handleRowsPerPageChange}
@@ -97,7 +98,7 @@ const Products: React.FC = () => {
             paginate={paginate}
             currentPage={currentPage}
           />
-        } */}
+        }
 
       </section>
     : 

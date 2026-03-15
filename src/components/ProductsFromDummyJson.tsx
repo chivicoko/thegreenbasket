@@ -16,6 +16,7 @@ import ViewButton from './ViewButton';
 import { Button } from './ui/button';
 import { MoveRight } from 'lucide-react';
 import { toast } from 'sonner';
+import FullPagination from './FullPagination';
 // import ViewButton from './button/ViewButton';
 
 const ProductsFromDummyJson: React.FC = () => {
@@ -84,7 +85,7 @@ const ProductsFromDummyJson: React.FC = () => {
           {pathName !== '/dummyjson-products' ? 
           <Button 
             variant={'ghost'}
-            onClick={() => router.push('/products')} 
+            onClick={() => router.push('/dummyjson-products')} 
             className='text-dark_orange font-bold text-[0.95rem] gap-2 group cursor-pointer hover:bg-transparent' 
           >
             See more
@@ -114,7 +115,7 @@ const ProductsFromDummyJson: React.FC = () => {
         <ProductListView products={calculatedProducts} /> 
       }
 
-      {/* {pathName === '/dummyjson-products' &&
+      {pathName === '/dummyjson-products' &&
         <FullPagination
           productsPerPage={productsPerPage}
           handleRowsPerPageChange={handleRowsPerPageChange}
@@ -123,7 +124,7 @@ const ProductsFromDummyJson: React.FC = () => {
           paginate={paginate}
           currentPage={currentPage}
         />
-      } */}
+      }
     </div>
   )
 }

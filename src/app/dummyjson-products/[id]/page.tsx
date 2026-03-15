@@ -1,17 +1,17 @@
 "use client";
 
+import CountDownTimer from '@/components/CountDownTimer';
+import DiscountBadge from '@/components/DiscountBadge';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { INITIAL_PRODUCT_DATA, PRODUCT } from '@/lib/data';
 import { Product2 } from '../../../../types';
-import { getProductById } from '@/api';
-import DiscountBadge from '@/components/DiscountBadge';
-import CountDownTimer from '@/components/CountDownTimer';
+import { getDummyJsonProductById } from '@/api';
+import { Button } from '@/components/ui/button';
 import { Heart, ShoppingCart, Star, StarHalf } from 'lucide-react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 import DiscountCardTwo from '@/components/footer/DiscountCardTwo';
 
 const SingleProduct = () => {  
@@ -22,20 +22,23 @@ const SingleProduct = () => {
   // const {userInfo} = useUserForm();
   // const router = useRouter();
   
+  // const pathName = usePathname();
+  // console.log("pathName: ", pathName);
+
   // if(!userInfo) router.push('/users/auth/register');
 
-  const { _id } = useParams();
-  // console.log("_id: ", _id);
+  const { id } = useParams();
+//   console.log("id: ", id);
   
   // Ensure params.id is a string
   // const productId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
-    if (_id) {
+    if (id) {
       const getData = async () => {
         try {
-          const product = await getProductById(_id);
-          // console.log('Product: ', product);
+          const product = await getDummyJsonProductById(id);
+          console.log('Product: ', product);
           setProduct(product);
           setCurrentImage(product.thumbnail);
         } catch (error) {
@@ -44,7 +47,7 @@ const SingleProduct = () => {
       };
       getData();
     }
-  }, [_id]);
+  }, [id]);
 
   // Check if product is null (data hasn't been fetched yet)
   // if (!product) {

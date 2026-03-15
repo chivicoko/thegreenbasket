@@ -50,10 +50,12 @@ const ProductGridView = ({products}: ProductViewProps) => {
                 //     alert("This product is already in cart.");
                 //   }
                 // }} 
-                className="flex items-center justify-center rounded-full text-sm" 
+                onClick={() => toast(`${product.title} added successfully.`)}
+                variant={'ghost'}
+                className="absolute top-2 right-2 z-40 cursor-pointer flex items-center justify-center rounded-full text-sm" 
               >
                 {/* {isProductInWishlist(product.id) ? <Favorite className="text-red-700" /> : <FavoriteBorder />} */}
-                <Heart />
+                <Heart className='size-5' />
               </Button>
 
               <Link href={pathName === '/dummyjson-products' ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative w-full h-48 mb-4 self-center cursor-pointer rounded-t-md overflow-hidden">

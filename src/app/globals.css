@@ -255,3 +255,55 @@ body {
     transform: translateY(5px);
   }
 }
+
+
+/* Pagination */
+
+/* left side */
+.pagination-right {
+  margin-top: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pagination-right .pages {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.pagination-right .pages span {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.42px;
+  color: #545F7D;
+}
+
+.pagination-right .pages .select-container {
+  /* background: #213F7D1A; */
+  background: #cee1af90;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  border: none;
+}
+
+.pagination-right .pages .select-container .span {
+  padding: .35rem 2.2rem;
+  padding-left: .8rem;
+  cursor: pointer;
+  flex: 1;
+  /* appearance: none; */
+  box-sizing: border-box;
+  font-weight: 500;
+  /* color: #213F7D; */
+  display: flex;
+  border: none;
+  align-items: center;
+  /* gap: 1rem; */
+
+  appearance: none; /* Remove default styling */
+  background: url('/images/np_next_2236826_000000 2.svg') no-repeat right 10px center; /* Custom arrow */
+  background-size: 14px; /* Adjust size of arrow */
+}
