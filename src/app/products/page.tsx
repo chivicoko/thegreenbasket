@@ -1,10 +1,21 @@
-import Header from '@/components/Header'
-import React from 'react'
+"use client";
 
-const page = () => {
+import React from 'react'
+import Products from '@/components/Products';
+
+const ProductsPage = () => {
+  // const {userInfo} = useUserForm();
+  // const router = useRouter();
+  
+  // if(!userInfo) router.push('/users/auth/register');
+
   return (
-    <h1>Products</h1>
+    <section className='xs:px-3 sm:px-6 md:px-[64px] xl:px-[85px] pt-8'>
+      <div className='mt-6'>
+        <Products />
+      </div>
+    </section>
   )
 }
 
-export default page
+export default ProductsPage;
