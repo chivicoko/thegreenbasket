@@ -6,7 +6,7 @@ import Image from 'next/image';
 // import { useUserForm } from '@/context/UserFormContext';
 import MobileNav from './MobileNav';
 import { NavbarProps } from '../../../types';
-import { ChevronDown, Heart, LogOutIcon, Search, ShoppingBag } from 'lucide-react';
+import { ChevronDown, Heart, LogOutIcon, Minus, Plus, Search, ShoppingBag, XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -23,6 +23,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { toast } from 'sonner';
+import { products } from '@/lib/data';
 
 const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) => {
   const router = useRouter();
@@ -79,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <Button 
                   className="bg-secondary hover:bg-secondary_hover cursor-pointer flex items-center justify-center p-1 md:p-2 text-primary rounded-full text-sm"
                 >
-                  <Heart className='h-4 w-4 md:h-6 md:w-6' />
+                  <ShoppingBag className='h-4 w-4 md:h-6 md:w-6' />
                 </Button>
                 <Badge className='absolute -top-2.5 -right-2 md:-top-2 md:-right-1 size-5 md:size-6 bg-white rounded-full text-black text-xs'>
                   99
@@ -88,26 +90,82 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Wishlist</SheetTitle>
-                <SheetDescription>
-                  Make changes to your profile here. Click save when you&apos;re done.
-                </SheetDescription>
+                <SheetTitle className='uppercase'>Shopping Wishlist</SheetTitle>
               </SheetHeader>
+
               <div className="grid flex-1 auto-rows-min gap-6 px-4">
-                <div className="grid gap-3">
-                  <Label htmlFor="sheet-demo-name">Name</Label>
-                  <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="sheet-demo-username">Username</Label>
-                  <Input id="sheet-demo-username" defaultValue="@peduarte" />
+                <hr />
+                <div className="flex flex-col gap-2">
+                  {products.slice(0,3).map(product => 
+                    <React.Fragment key={product.id}>
+                      <div className="w-full flex justify-between gap-2">
+                        <div className="flex gap-2">
+                          <span className="relative size-20 border rounded-md">
+                            <Image
+                              src={product.thumbnail ?? '/images/imagePlaceholder.jpeg'}
+                              alt="GreenBasket Store's Logo"
+                              fill
+                              className='rounded-md object-cover'
+                              sizes="100%"
+                            />
+                          </span>
+                          <div className='space-y-3'>
+                            <p className='uppercase text-sm'>{product.title}</p>
+                            <p className='font-semibold text-sm'>₦{product.price}</p>
+                          </div>
+                        </div>
+
+                        <div className='flex flex-col items-end justify-start gap-4'>
+                          <XIcon className="size-4 cursor-pointer" />
+                        </div>
+                      </div>
+                      <hr />
+                    </React.Fragment>
+                  )}
+
                 </div>
               </div>
+
               <SheetFooter>
-                <Button type="submit" className='cursor-pointer'>Save changes</Button>
-                <SheetClose asChild>
-                  <Button variant="outline" className='cursor-pointer'>Close</Button>
-                </SheetClose>
+                <hr className='py-2' />
+                <Button 
+                  type="submit" 
+                  className='bg-secondary hover:bg-secondary_hover mt-2 font-bold text-l text-primary py-[11px] px-[27px] shadow-md cursor-pointer uppercase'
+                  onClick={() => {
+                    toast.promise<{ name: string }>(
+                      () =>
+                        new Promise((resolve) =>
+                            setTimeout(() => resolve({ name: "All items" }), 1000)
+                        ),
+                      {
+                        loading: "Adding all items to cart...",
+                        success: (data) => `${data.name} added to cart.`,
+                        error: "Error",
+                      }
+                    )
+                  }}
+                >
+                  Add all to cart
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className='cursor-pointer uppercase'
+                  onClick={() => {
+                    toast.promise<{ name: string }>(
+                      () =>
+                        new Promise((resolve) =>
+                            setTimeout(() => resolve({ name: "Wishlist" }), 1000)
+                        ),
+                      {
+                        loading: "Clearing wishlist...",
+                        success: (data) => `${data.name} has been cleared.`,
+                        error: "Error",
+                      }
+                    )
+                  }}
+                >
+                  Clear Wishlist
+                </Button>
               </SheetFooter>
             </SheetContent>
           </Sheet>
@@ -132,26 +190,79 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Cart</SheetTitle>
-                <SheetDescription>
-                  Make changes to your profile here. Click save when you&apos;re done.
-                </SheetDescription>
+                <SheetTitle className='uppercase'>Shopping Cart</SheetTitle>
               </SheetHeader>
+
               <div className="grid flex-1 auto-rows-min gap-6 px-4">
-                <div className="grid gap-3">
-                  <Label htmlFor="sheet-demo-name">Name</Label>
-                  <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="sheet-demo-username">Username</Label>
-                  <Input id="sheet-demo-username" defaultValue="@peduarte" />
+                <hr />
+                <div className="flex flex-col gap-2">
+                  {products.slice(0,3).map(product => 
+                    <React.Fragment key={product.id}>
+                      <div className="w-full flex justify-between gap-2">
+                        <div className="flex gap-2">
+                          <span className="relative size-20 border rounded-md">
+                            <Image
+                              src={product.thumbnail ?? '/images/imagePlaceholder.jpeg'}
+                              alt="GreenBasket Store's Logo"
+                              fill
+                              className='rounded-md object-cover'
+                              sizes="100%"
+                            />
+                          </span>
+                          <div className='space-y-3'>
+                            <p className='uppercase text-sm'>{product.title}</p>
+                            <p className='font-semibold text-sm'>₦{product.price}</p>
+                          </div>
+                        </div>
+
+                        <div className='flex flex-col items-end justify-start gap-4'>
+                          <XIcon className="size-4 cursor-pointer" />
+                          <div className='border py-1 px-2 flex items-center gap-4'>
+                            <Minus className='size-4 cursor-pointer' />
+                            <span className='text-sm font-medium'>4</span>
+                            <Plus className='size-4 cursor-pointer' />
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                    </React.Fragment>
+                  )}
+
                 </div>
               </div>
+
               <SheetFooter>
-                <Button type="submit" className='cursor-pointer'>Save changes</Button>
-                <SheetClose asChild>
-                  <Button variant="outline" className='cursor-pointer'>Close</Button>
-                </SheetClose>
+                <hr className='py-2' />
+                <div className=" pt-1 pb-2 flex items-center justify-between">
+                  <p className='font-semibold'>Subtotal</p>
+                  <p className='font-bold'>₦210,000.00</p>
+                </div>
+                <Button 
+                  type="submit" 
+                  className='bg-secondary hover:bg-secondary_hover mt-2 font-bold text-l text-primary py-[11px] px-[27px] shadow-md cursor-pointer uppercase'
+                  onClick={() => router.push('/checkout')}
+                >
+                  Checkout
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className='cursor-pointer uppercase'
+                  onClick={() => {
+                    toast.promise<{ name: string }>(
+                      () =>
+                        new Promise((resolve) =>
+                            setTimeout(() => resolve({ name: "Cart" }), 1000)
+                        ),
+                      {
+                        loading: "Clearing cart...",
+                        success: (data) => `${data.name} has been cleared.`,
+                        error: "Error",
+                      }
+                    )
+                  }}
+                >
+                  Clear Cart
+                </Button>
               </SheetFooter>
             </SheetContent>
           </Sheet>
