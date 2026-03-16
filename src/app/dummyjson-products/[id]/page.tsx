@@ -100,9 +100,7 @@ const SingleProduct = () => {
                 product.thumbnail && 
                 <div className="relative w-44 h-44 md:w-64 md:h-64">
                   <Image
-                    src={currentImage}
-                    // src={product.thumbnail}
-                    // src={product.thumbnail ?? currentImage}
+                    src={currentImage || "/images/imagePlaceholder.jpeg"}
                     alt="product image"
                     fill
                     className="object-cover rounded-lg md:hover:scale-110"
@@ -131,7 +129,7 @@ const SingleProduct = () => {
                     >
                       <div className="relative w-10 h-10 md:w-12 md:h-12">
                         <Image
-                          src={img ?? "/images/imagePlaceholder.jpeg"}
+                          src={img || "/images/imagePlaceholder.jpeg"}
                           alt="product extra preview"
                           fill
                           className="object-cover rounded-lg"
@@ -173,14 +171,14 @@ const SingleProduct = () => {
                 <div className="self-center space-y-1">
                   <div className="relative size-40">
                     <Image
-                      src={product.meta.qrCode ?? null}
+                      src={product.meta?.qrCode || "/images/imagePlaceholder.jpeg"}
                       alt="QR Code"
                       fill
                       className="object-cover rounded-lg"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
-                  <p className="text-center">{product.meta.barcode}</p>
+                  <p className="text-center">{product.meta?.barcode}</p>
                 </div>
               </div>
 

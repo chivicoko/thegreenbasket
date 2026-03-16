@@ -109,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                         <div className="flex gap-2">
                           <span className="relative size-20 border rounded-md">
                             <Image
-                              src={product.thumbnail ?? '/images/imagePlaceholder.jpeg'}
+                              src={product.thumbnail || '/images/imagePlaceholder.jpeg'}
                               alt="GreenBasket Store's Logo"
                               fill
                               className='rounded-md object-cover'
@@ -220,7 +220,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                         <div className="flex gap-2">
                           <span className="relative size-20 border rounded-md">
                             <Image
-                              src={product.thumbnail ?? '/images/imagePlaceholder.jpeg'}
+                              src={product.thumbnail || '/images/imagePlaceholder.jpeg'}
                               alt="GreenBasket Store's Logo"
                               fill
                               className='rounded-md object-cover'

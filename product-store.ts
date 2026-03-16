@@ -101,7 +101,7 @@ export const useEcommerceStore = create<EcommerceStore>()(
 
       getTotalPrice: () => {
         const total = get().cart.reduce(
-          (sum, item) => sum + item.price * item.quantity,
+          (sum, item) => sum + Number(item.price) * item.quantity,
           0
         );
         return total.toFixed(2);

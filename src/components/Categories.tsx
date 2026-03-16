@@ -28,7 +28,7 @@ const Categories: React.FC = () => {
               </span>
               <span className="relative w-14 h-14 self-end mt-8 rotate-12">
                 <Image
-                  src={category.img}
+                  src={category.img || "/images/imagePlaceholder.jpeg"}
                   alt={`${category.name} preview`}
                   fill
                   className='object-cover'

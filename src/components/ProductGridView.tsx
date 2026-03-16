@@ -76,7 +76,7 @@ const ProductGridView = ({products, isDummyJsonData}: ProductViewProps) => {
 
                 <Link href={pathName === '/dummyjson-products' || isDummyJsonData  ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative w-full h-48 mb-4 self-center cursor-pointer rounded-t-md overflow-hidden">
                   <Image
-                    src={product.thumbnail}
+                    src={product.thumbnail || "/images/imagePlaceholder.jpeg"}
                     alt={`${product.title} preview`}
                     fill
                     className="object-cover rounded-t-md transition-transform duration-300 ease-in-out transform hover:scale-105"

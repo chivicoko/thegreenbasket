@@ -12,7 +12,6 @@ import { Button } from './ui/button';
 import { MoveRight } from 'lucide-react';
 import { toast } from 'sonner';
 import FullPagination from './FullPagination';
-import Categories from './Categories';
 import CategorySelect from './CategorySelect';
 
 const ProductsFromDummyJson: React.FC = () => {
@@ -59,7 +58,7 @@ const ProductsFromDummyJson: React.FC = () => {
         toast.error(`Error fetching products: ${error}`);
       } finally {
         setLoading(false);
-        setCurrentPage(1); // reset pagination when category changes
+        setCurrentPage(1);
       }
     };
 

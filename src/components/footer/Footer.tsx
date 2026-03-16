@@ -7,7 +7,7 @@ import React from "react";
 import { footerLinks } from "@/lib/data";
 import { BriefcaseBusiness, ChevronRight, CircleQuestionMark, Gift, Github, Globe, Instagram, Linkedin, Mail, MessageCircleDashed, Send, Twitter } from "lucide-react";
 import { Button } from "../ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 
@@ -20,7 +20,6 @@ const myLinks = [
   { id: 5, url: 'https://www.linkedin.com/in/codesvictor', icon: <Linkedin className="h-4 w-4 md:h-6 md:w-6" />, },
   { id: 6, url: 'https://wa.me/+2348028845693', icon: <MessageCircleDashed className="h-4 w-4 md:h-6 md:w-6" />, },
 ];
-
 
 const Footer = () => {
   const pathName = usePathname();

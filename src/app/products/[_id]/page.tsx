@@ -16,12 +16,11 @@ import DiscountCardTwo from '@/components/footer/DiscountCardTwo';
 import { useEcommerceStore } from '../../../../product-store';
 
 const SingleProduct = () => {  
-  const [product, setProduct] = useState<Product2>(INITIAL_PRODUCT_DATA); // Single product
+  const [product, setProduct] = useState<Product2>(INITIAL_PRODUCT_DATA);
   const [currentImage, setCurrentImage] = useState<string>('/images/imagePlaceholder.jpeg');
   
   const {
     addToCart,
-    removeFromCart,
     toggleWishlistBtn,
     isProductInWishlist,
     isProductInCart,
@@ -29,14 +28,8 @@ const SingleProduct = () => {
     decreaseProductQuantity,
     getProductQuantity
   } = useEcommerceStore();
-  
-  // if(!userInfo) router.push('/users/auth/register');
 
   const { _id } = useParams();
-  // console.log("_id: ", _id);
-  
-  // Ensure params.id is a string
-  // const productId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
     if (_id) {
@@ -99,9 +92,7 @@ const SingleProduct = () => {
                 product.thumbnail && 
                 <div className="relative w-44 h-44 md:w-64 md:h-64">
                   <Image
-                    src={currentImage}
-                    // src={product.thumbnail}
-                    // src={product.thumbnail ?? currentImage}
+                    src={currentImage || "/images/imagePlaceholder.jpeg"}
                     alt="product image"
                     fill
                     className="object-cover rounded-lg md:hover:scale-110"
@@ -130,7 +121,7 @@ const SingleProduct = () => {
                     >
                       <div className="relative w-10 h-10 md:w-12 md:h-12">
                         <Image
-                          src={img ?? "/images/imagePlaceholder.jpeg"}
+                          src={img || "/images/imagePlaceholder.jpeg"}
                           alt="product extra preview"
                           fill
                           className="object-cover rounded-lg"
@@ -172,7 +163,7 @@ const SingleProduct = () => {
                 <div className="self-center space-y-1">
                   <div className="relative size-40">
                     <Image
-                      src={product.meta?.qrCode ?? "/images/imagePlaceholder.jpeg"}
+                      src={product.meta?.qrCode || "/images/imagePlaceholder.jpeg"}
                       alt="QR Code"
                       fill
                       className="object-cover rounded-lg"

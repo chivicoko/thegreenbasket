@@ -28,11 +28,11 @@ const DiscountCard = () => {
                     </div>
                     <span className="relative w-20 h-20  md:w-32 md:h-32 lg:w-44 lg:h-44 self-end">
                         <Image 
-                        src={discountCard.img}
-                        alt={`${discountCard.badgeText}'s icon`}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        sizes="100%"
+                            src={discountCard.img || "/images/imagePlaceholder.jpeg"}
+                            alt={`${discountCard.badgeText}'s icon`}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            sizes="100%"
                         />
                     </span>
                 </div>

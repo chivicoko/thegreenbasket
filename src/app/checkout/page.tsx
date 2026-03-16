@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { toast } from "sonner";
 import { useEcommerceStore } from "../../../product-store";
 
@@ -177,7 +175,7 @@ const CheckoutPage = () => {
                     <div className="relative w-14 h-14">
                       <Image
                         src={
-                          product.thumbnail ??
+                          product.thumbnail ||
                           "/images/imagePlaceholder.jpeg"
                         }
                         alt={product.title}

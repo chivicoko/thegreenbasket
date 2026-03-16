@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   // twitter: {
   //   card: 'summary_large_image',
-  //   title: "GreenBasket Store",
-  //   description: "GreenBasket is the number 1 e-commerce product listing platform which makes buying and selling really easy for everyone.",
+  //   title: "TheGreenBasket Store",
+  //   description: "TheGreenBasket is the number 1 e-commerce product listing platform which makes buying and selling really easy for everyone.",
   //   image: 'https://yourwebsite.com/path/to/twitter-image.jpg',
   // },
 };
@@ -59,9 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${jost.variable} antialiased`} suppressHydrationWarning>
-        <Providers>
           {children}
-        </Providers>
+        {/* <Providers>
+        </Providers> */}
 
         <ScrollToTopButton />
         <Toaster position="top-center" richColors closeButton />

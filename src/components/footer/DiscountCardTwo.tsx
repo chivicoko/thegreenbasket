@@ -33,7 +33,7 @@ const DiscountCardTwo: React.FC = () => {
                   <div className={`${card.bgColor2} absolute inset-0 bg-opacity-80 rounded-xl`}></div>
                   <div className="relative w-36 h-36 mb-4 self-center rounded-full">
                     <Image
-                      src={card.img}
+                      src={card.img || "/images/imagePlaceholder.jpeg"}
                       alt={`${card.text1} preview`}
                       fill
                       className="object-cover rounded-full"
