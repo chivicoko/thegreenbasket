@@ -11,9 +11,10 @@ import { useEcommerceStore } from '../../product-store';
 
 interface ProductViewProps {
   products: Product2[],
+  isDummyJsonData?: boolean,
 }
 
-const ProductGridView = ({products}: ProductViewProps) => {
+const ProductGridView = ({products, isDummyJsonData}: ProductViewProps) => {
   const {
     addToCart,
     increaseProductQuantity,
@@ -46,7 +47,7 @@ const ProductGridView = ({products}: ProductViewProps) => {
         {
             products.map(product => {
               const price = formatPrice(product.price);
-              
+
               return (
               <div key={product.id} className="relative pt-0 pb-4 flex-1 flex flex-col justify-center items-center bg-white rounded-xl shadow-md">
                 <p className="absolute top-2 left-2 z-40 bg-dark_orange text-white px-2 rounded-sm text-xs flex items-center justify-center">
@@ -73,7 +74,7 @@ const ProductGridView = ({products}: ProductViewProps) => {
                   />
                 </Button>
 
-                <Link href={pathName === '/dummyjson-products' ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative w-full h-48 mb-4 self-center cursor-pointer rounded-t-md overflow-hidden">
+                <Link href={pathName === '/dummyjson-products' || isDummyJsonData  ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative w-full h-48 mb-4 self-center cursor-pointer rounded-t-md overflow-hidden">
                   <Image
                     src={product.thumbnail}
                     alt={`${product.title} preview`}
@@ -85,7 +86,7 @@ const ProductGridView = ({products}: ProductViewProps) => {
 
                 <div className='px-4 w-full h-1/2 flex flex-col items-center justify-between'>
                   <h2 className='text-center text-lg font-semibold text-primary hover:text-black'>
-                    <Link href={pathName === '/dummyjson-products' ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="">
+                    <Link href={pathName === '/dummyjson-products' || isDummyJsonData ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="">
                       {product.title}
                     </Link>
                   </h2>

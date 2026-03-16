@@ -1,15 +1,24 @@
 'use client';
 
-import { MoveRight, ShoppingCart } from 'lucide-react';
+import { Heart, Minus, MoveRight, Plus, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { categories, products } from '@/lib/data';
 import { toast } from 'sonner';
+import { useEcommerceStore } from '../../../product-store';
 
 const WeeklyBestSellingProducts: React.FC = () => {
-  // const {addToCart, isProductInCart, increaseProductQuantity, decreaseProductQuantity, getProductQuantity} = useCart();
+  const {
+    addToCart,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    getProductQuantity,
+    toggleWishlistBtn,
+    isProductInWishlist,
+    isProductInCart,
+  } = useEcommerceStore();
   
   const router = useRouter();
     
@@ -45,7 +54,26 @@ const WeeklyBestSellingProducts: React.FC = () => {
       <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
         {
           products.slice(0,5).map(product => 
-            <div key={product.id} className="pt-0 pb-4 flex-1 flex flex-col justify-center items-center bg-white rounded-xl shadow-md">
+            <div key={product.id} className="relative pt-0 pb-4 flex-1 flex flex-col justify-center items-center bg-white rounded-xl shadow-md">
+              
+              <Button
+                onClick={() => {
+                  if (!isProductInCart(product.id)) {
+                    toggleWishlistBtn(product);
+
+                    toast.success(`${product.title} added to wishlist`);
+                  } else {
+                    toast.error("This product is already in cart.");
+                  }
+                }}
+                className="absolute top-2 right-2 z-40 cursor-pointer flex items-center justify-center rounded-full text-sm"
+              >
+                <Heart
+                  className={`size-5 ${
+                    isProductInWishlist(product.id) ? "text-red-600 fill-red-600" : ""
+                  }`}
+                />
+              </Button>
               <Link href={`/products/${product.id}`} className="relative w-full h-48 mb-4 self-center cursor-pointer rounded-t-md overflow-hidden">
                 <Image
                   src={product.thumbnail}
@@ -69,44 +97,41 @@ const WeeklyBestSellingProducts: React.FC = () => {
                   <p className='text-center text-xl py-3 font-bold text-primary'>${product.price}</p>
                 </div>
 
-                <div className='bg-yellowish w-full py-0.5 flex items-center rounded-lg justify-around shadow-sm'>
-                    <Button 
-                        // onClick={() => addToCart(product)}
-                        onClick={() => {
-                            toast.promise<{ name: string }>(
-                                () =>
-                                    new Promise((resolve) =>
-                                        setTimeout(() => resolve({ name: product?.title }), 1000)
-                                    ),
-                                {
-                                    loading: "Loading...",
-                                    success: (data) => `${data.name} has been added to cart.`,
-                                    error: "Error",
-                                }
-                            )
-                        }}
-                        className={`flex items-center justify-center w-full cursor-pointer bg-transparent hover:bg-transparent shadow-none`}
-                        // className={`${isProductInCart(product.id) ? 'hidden' : 'flex items-center justify-center'} w-full`}
-                    > 
-                        <span className="py-2 px-2 bg-white hover:bg-yellowish_hover rounded-full transition-all duration-200 ease-in-out">
-                            <ShoppingCart className='text-foreground' />
-                        </span>
+                <div className="bg-yellowish w-full py-1 flex items-center rounded-lg justify-around shadow-sm">
+                  {!isProductInCart(product.id) ? (
+                    <Button
+                      onClick={() => {
+                        if (isProductInWishlist(product.id)) {
+                          toggleWishlistBtn(product);
+                        }
+
+                        addToCart(product);
+                        toast.success(`${product.title} added to cart`);
+                      }}
+                      className="flex items-center justify-center w-full cursor-pointer bg-transparent hover:bg-transparent shadow-none"
+                    >
+                    <span className="py-2 px-2 bg-white hover:bg-yellowish_hover rounded-full transition-all duration-200 ease-in-out">
+                      <ShoppingCart className="text-foreground" />
+                    </span>
                     </Button>
-                    {/* <div className={`${isProductInCart(product.id) ? 'flex items-center justify-around gap-3' : 'hidden'} w-full`} >
-                        <Button 
-                            onClick={() => decreaseProductQuantity(product.id)} 
-                            className="p-1 bg-white hover:bg-yellowish_hover text-primary rounded-full"
-                        >
-                            <Minus />
-                        </Button>
-                        <p>{getProductQuantity(product.id)}</p>
-                        <Button 
-                            onClick={() => increaseProductQuantity(product.id)} 
-                            className="p-1 bg-white hover:bg-yellowish_hover text-primary rounded-full"
-                        >
-                            <Plus />
-                        </Button>
-                    </div> */}
+                  ) : (
+                    <div className="flex items-center justify-around gap-3 w-full h-full py-1.5">
+                      <Minus 
+                        onClick={() => decreaseProductQuantity(product.id)}
+                        className='cursor-pointer text-primary'
+                      />
+
+                      <p className="font-medium">
+                        {getProductQuantity(product.id)}
+                      </p>
+
+                      <Plus 
+                        onClick={() => increaseProductQuantity(product.id)}
+                        className='cursor-pointer text-primary'
+                      />
+                    </div>
+                  )}
+
                 </div>
               </div>
             </div>

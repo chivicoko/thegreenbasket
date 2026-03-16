@@ -12,9 +12,10 @@ import { useEcommerceStore } from '../../product-store';
 
 interface ProductViewProps {
   products: Product2[],
+  isDummyJsonData?: boolean,
 }
 
-const ProductListView = ({products}: ProductViewProps) => {
+const ProductListView = ({products, isDummyJsonData}: ProductViewProps) => {
   const {
     addToCart,
     increaseProductQuantity,
@@ -63,7 +64,7 @@ const ProductListView = ({products}: ProductViewProps) => {
               >
                 <td className="relative pl-6 py-2 text-[15px] whitespace-nowrap w-2">{ idx + 1 }</td>
                 <td className="pl-6 py-2 w-2">
-                  <Link href={pathName === '/dummyjson-products' ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative block size-12 cursor-pointer">
+                  <Link href={pathName === '/dummyjson-products' || isDummyJsonData ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="relative block size-12 cursor-pointer">
                     <Image
                       src={product.thumbnail || '/images/imagePlaceholder.jpeg'}
                       alt={`${product.title} preview`}
@@ -74,7 +75,7 @@ const ProductListView = ({products}: ProductViewProps) => {
                   </Link>
                 </td>
                 <td className="relative pl-6 py-2 text-[15px] whitespace-nowrap w-2">
-                  <Link href={pathName === '/dummyjson-products' ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="text-primary font-semibold">{ product.title }</Link>
+                  <Link href={pathName === '/dummyjson-products' || isDummyJsonData ? `/dummyjson-products/${product.id}` : `/products/${product.id}`} className="text-primary font-semibold">{ product.title }</Link>
                 </td>
                 <td className="relative py-2 text-[15px] whitespace-nowrap w-2">
                   <div className="flex items-center gap-2 flex-nowrap">

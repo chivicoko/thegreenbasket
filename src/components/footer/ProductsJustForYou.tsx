@@ -64,9 +64,9 @@ const ProductsJustForYou: React.FC = () => {
       </div>
       
       {gridView ?
-        <ProductGridView products={products} /> 
+        <ProductGridView products={products} isDummyJsonData={true} /> 
         :
-        <ProductListView products={products} /> 
+        <ProductListView products={products} isDummyJsonData={true} /> 
       }
     </div>
   )

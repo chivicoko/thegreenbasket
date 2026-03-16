@@ -3,18 +3,15 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
-// import { useUserForm } from '@/context/UserFormContext';
 import MobileNav from './MobileNav';
 import { NavbarProps } from '../../../types';
 import { ChevronDown, Heart, LogOutIcon, Minus, Plus, Search, ShoppingBag, XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 
 import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useRouter } from 'next/navigation';
 import { Badge } from '../ui/badge';
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,15 +21,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { toast } from 'sonner';
-import { products } from '@/lib/data';
 import { useEcommerceStore } from '../../../product-store';
 
 const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) => {
-  const router = useRouter();
-
-  // const {userInfo, } = useUserForm();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-  const toggleMobileNav = () => setIsMobileNavOpen((prev) => !prev);
+  const router = useRouter();
 
   const {
     cart,
@@ -49,6 +42,8 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
     addWishlistToCart,
     getTotalPrice,
   } = useEcommerceStore();
+
+  const toggleMobileNav = () => setIsMobileNavOpen((prev) => !prev);
 
   return (    
     <nav className={`z-30 ${firstDivClasses}`}>
@@ -79,15 +74,9 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
           <Button className="bg-secondary hover:bg-secondary_hover cursor-pointer text-primary font-semibold rounded-full px-2 md:px-4 py-1 md:py-3 md:ml-2 focus:ring-2 focus:ring-[#bbea70d3]">
             <Search className='h-4 w-4 md:h-6 md:w-6' />
           </Button>
-          {/* <Button icon1={<Search className='h-4 w-4 md:h-6 md:w-6' />} classes="bg-secondary hover:bg-secondary_hover text-primary font-semibold rounded-full px-2 md:px-4 py-1 md:py-3 md:ml-2 focus:ring-2 focus:ring-[#bbea70d3]" /> */}
         </div>
 
         <div className="flex gap-4 items-center justify-end">
-          {/* {totalWishlistCount > 0 && 
-            <div className="absolute -top-[10px] -right-[8px] md:-top-2 md:-right-1 size-5 md:size-6 bg-white rounded-full">
-              <p className='w-full h-full flex items-center justify-center text-center text-black text-xs'>{totalWishlistCount}</p>
-            </div>
-          } */}
           <Sheet>
             <SheetTrigger asChild>
               <div className="relative">
@@ -199,11 +188,6 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
             </SheetContent>
           </Sheet>
 
-          {/* {totalCount > 0 && 
-            <div className="absolute -top-[10px] -right-[8px] md:-top-2 md:-right-1 size-5 md:size-6 bg-white rounded-full">
-              <p className='w-full h-full flex items-center justify-center text-center text-black text-xs'>{totalCount}</p>
-            </div>
-          } */}
           <Sheet>
             <SheetTrigger asChild>
               <div className="relative">
@@ -272,7 +256,6 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                 <hr className='py-2' />
                 <div className=" pt-1 pb-2 flex items-center justify-between">
                   <p className='font-semibold'>Subtotal</p>
-                  {/* <p className='font-bold'>₦{getTotalPrice() ?? `210,000.00`}</p> */}
                   <p className='font-bold'>₦{getTotalPrice()}</p>
                 </div>
                 <Button 
@@ -331,7 +314,13 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                     onClick={() => router.push('/products')} 
                     className='cursor-pointer'
                   >
-                    Product
+                    Products
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => router.push('/dummyjson-products')} 
+                    className='cursor-pointer'
+                  >
+                    DummyJson Products
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

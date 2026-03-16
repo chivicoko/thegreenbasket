@@ -1,12 +1,7 @@
 "use client";
 
-// import { East } from '@mui/icons-material';
-// import ButtonLink from './button/ButtonLink';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-// import { Product2 } from '@/utils/types';
-// import { getDummyJsonProducts } from '@/lib/api';
-// import FullPagination from './pagination/FullPagination';
 import Loading from '@/app/loading';
 import ProductListView from './ProductListView';
 import ProductGridView from './ProductGridView';
@@ -17,12 +12,9 @@ import { Button } from './ui/button';
 import { MoveRight } from 'lucide-react';
 import { toast } from 'sonner';
 import FullPagination from './FullPagination';
-// import ViewButton from './button/ViewButton';
 
 const ProductsFromDummyJson: React.FC = () => {
   const [currentProducts, setCurrentProducts] = useState<Product2[]>([]);
-  const pathName = usePathname();
-  const router = useRouter();
 
   const [gridView, setGridView] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
@@ -31,6 +23,12 @@ const ProductsFromDummyJson: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [productsPerPage, setProductsPerPage] = useState<number>(10);
   const [totalProducts, setTotalProducts] = useState<number>(0);
+  
+  const pathName = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+  console.log("category: ", category);
 
   useEffect(() => {
     if (pathName !== '/dummyjson-products') {
@@ -79,7 +77,7 @@ const ProductsFromDummyJson: React.FC = () => {
   return (
     <div className={`${pathName !== '/dummyjson-products' ? 'bg-[#fffbeb]' : ''} w-full pt-12 pb-20 px-4 lg:px-8 xl:px-20`}>
       <div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
-        <h3 className='text-xl lg:text-3xl mx-auto md:mx-0 font-bold text-primary'>{pathName === '/' ? 'From DummyJson API' : 'Products from DummyJson API'}</h3>
+        <h3 className='text-xl lg:text-3xl mx-auto md:mx-0 font-bold text-primary'>{pathName === '/dummyjson-products' ? 'DummyJson Products' : 'Products from DummyJson API'}</h3>
         <div className="w-full md:w-auto flex items-center justify-between gap-6 flex-wrap">
           <ViewButton gridView={gridView} setGridView={setGridView} />
           {pathName !== '/dummyjson-products' ? 
@@ -91,28 +89,15 @@ const ProductsFromDummyJson: React.FC = () => {
             See more
             <MoveRight className='transition-all duration-300 ease-in-out transform group-hover:translate-x-1 size-5' />
           </Button>
-          // <ButtonLink url='/dummyjson-products' btnText='See more' classes='text-dark_orange font-semibold gap-2 group' icon2={<East className='transition-all duration-300 ease-in-out transform group-hover:translate-x-1' />}  />
           : null
           }
         </div>
       </div>
 
-      {/* <div className='flex items-center justify-center'>
-        <Image
-          src={fetchedProductsImage}
-          alt={`${'--'} preview`}
-          // fill
-          width={300}
-          height={400}
-          className="object-cover rounded-t-md transition-transform duration-300 ease-in-out transform hover:scale-105"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div> */}
-
       {gridView ?
-        <ProductGridView products={calculatedProducts} /> 
+        <ProductGridView products={calculatedProducts} isDummyJsonData={true} /> 
         :
-        <ProductListView products={calculatedProducts} /> 
+        <ProductListView products={calculatedProducts} isDummyJsonData={true} /> 
       }
 
       {pathName === '/dummyjson-products' &&

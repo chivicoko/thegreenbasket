@@ -8,14 +8,10 @@ import { getProducts } from '@/api';
 import { Button } from './ui/button';
 import ProductCard from './ProductCard';
 import FullPagination from './FullPagination';
-// import FullPagination from './pagination/FullPagination';
-// import Button from './button/Button';
-// import { Product2 } from '@/utils/types';
 
 const Products: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<Product2[]>([]);
-  // const [cart, setCart] = useState<Product[]>([]);
   
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [productsPerPage, setProductsPerPage] = useState<number>(10);
@@ -23,14 +19,6 @@ const Products: React.FC = () => {
 
   const router = useRouter();
   const pathName = usePathname();
-
-  // Load cart from localStorage on mount
-  // useEffect(() => {
-  //   const productCart = localStorage.getItem('cart');
-  //   if (productCart) {
-  //     // setCart(JSON.parse(productCart));
-  //   }
-  // }, []);
 
   // Fetch products data
   useEffect(() => {
@@ -77,14 +65,13 @@ const Products: React.FC = () => {
 
   return (
     products?.length > 0 ?
-      <section className='py-3 md:py-5 px-2 md:px-6' id='content'>
+      <section className='py-3 md:py-5 px-2 md:px-6'>
         <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-6">
           {
             currentProducts.map((product, index) =>
               <React.Fragment key={index}>
                 <ProductCard product={product} />
               </React.Fragment>
-              // <ProductCard key={product._id} product={product} addToCart={addToCart} />
             )
           }
         </div>

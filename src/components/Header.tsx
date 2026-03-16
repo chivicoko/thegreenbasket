@@ -10,7 +10,7 @@ const Header = () => {
 
   const handleScroll = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const element = document.getElementById('content');
+    const element = document.getElementById('productsContent');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -32,7 +32,7 @@ const Header = () => {
               onClick={handleScroll} 
               className="flex items-center gap-3 bg-secondary hover:bg-secondary_hover mt-4 md:mt-16 mb-4 font-bold rounded-xl text-primary py-[11px] px-[27px] hover:cursor-pointer shadow-md"
             >
-                Shop now
+              Shop now
             </Button>
           </div>
           <div className="relative z-10 lg:w-1/3 flex justify-start mb-4 lg:mb-auto">

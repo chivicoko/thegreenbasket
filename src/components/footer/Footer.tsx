@@ -8,6 +8,7 @@ import { footerLinks } from "@/lib/data";
 import { BriefcaseBusiness, ChevronRight, CircleQuestionMark, Gift, Github, Globe, Instagram, Linkedin, Mail, MessageCircleDashed, Send, Twitter } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 const myLinks = [
@@ -138,7 +139,6 @@ const Footer = () => {
                 name="email"
                 className="bg-transparent p-3 ml-2 rounded-full shadow-lg w-full border-0 text-sm md:text-base text-white leading-tight focus:outline-0 focus:ring-0"
               />
-              {/* <Button icon1={<Send className='-rotate-45 h-4 w-4 md:h-6 md:w-6' />} classes="bg-secondary hover:bg-secondary_hover text-primary font-semibold rounded-full px-4 py-3 ml-2 focus:ring-2 focus:ring-primary" /> */}
               <Button className="cursor-pointer bg-secondary hover:bg-secondary_hover text-primary font-semibold rounded-full px-4 py-3 ml-2 focus:ring-2 focus:ring-primary">
                 <Send className='' />
               </Button>
@@ -147,16 +147,64 @@ const Footer = () => {
         </div>
 
         <div className="py-4 flex items-center justify-between flex-wrap gap-3 md:gap-6">
-          <div className="w-full md:w-auto flex items-center justify-center md:justify-start gap-3">
-            <Button variant={'ghost'} className="flex items-center gap-1 whitespace-nowrap cursor-pointer hover:bg-transparent">
+          <div className="w-full md:w-auto flex items-center justify-center md:justify-start gap-4 md:gap-6">
+            <Button 
+              variant={'ghost'} 
+              onClick={() => {
+                toast.promise<{ name: string }>(
+                  () =>
+                    new Promise((resolve) =>
+                        setTimeout(() => resolve({ name: "Seller" }), 1000)
+                    ),
+                  {
+                    loading: "Processing...",
+                    success: (data) => `You have now become a ${data.name}`,
+                    error: "Error",
+                  }
+                )
+              }}
+              className="flex items-center gap-1 whitespace-nowrap cursor-pointer !px-0 hover:bg-transparent"
+            >
               <BriefcaseBusiness className='h-4 w-4 md:h-6 md:w-6 text-pink-600' />
               Become A Seller
             </Button>
-            <Button variant={'ghost'} className="flex items-center gap-1 whitespace-nowrap cursor-pointer hover:bg-transparent">
+            <Button 
+              variant={'ghost'} 
+              onClick={() => {
+                toast.promise<{ name: string }>(
+                  () =>
+                    new Promise((resolve) =>
+                        setTimeout(() => resolve({ name: "Gift Card" }), 1000)
+                    ),
+                  {
+                    loading: "Getting gift card...",
+                    success: (data) => `You've just got a ${data.name}`,
+                    error: "Error",
+                  }
+                )
+              }}
+              className="flex items-center gap-1 whitespace-nowrap cursor-pointer !px-0 hover:bg-transparent"
+            >
               <Gift className='h-4 w-4 md:h-6 md:w-6 text-pink-600' />
               Gift Cards
             </Button>
-            <Button variant={'ghost'} className="flex items-center gap-1 whitespace-nowrap cursor-pointer hover:bg-transparent">
+            <Button 
+              variant={'ghost'} 
+              onClick={() => {
+                toast.promise<{ name: string }>(
+                  () =>
+                    new Promise((resolve) =>
+                        setTimeout(() => resolve({ name: "Help Center" }), 1000)
+                    ),
+                  {
+                    loading: "Contacting help center...",
+                    success: (data) => `Thanks for reaching out to the ${data.name}`,
+                    error: "Error",
+                  }
+                )
+              }}
+              className="flex items-center gap-1 whitespace-nowrap cursor-pointer !px-0 hover:bg-transparent"
+            >
               <CircleQuestionMark className='h-4 w-4 md:h-6 md:w-6 text-pink-600' />
               Help Center
             </Button>
@@ -166,7 +214,7 @@ const Footer = () => {
             <Button variant={'ghost'} className="flex items-center underline cursor-pointer hover:bg-transparent">Privacy Policy</Button>
           </div>
           <div className="w-full md:w-auto flex items-center justify-center md:justify-end gap-2 flex-wrap">
-            <span>All Rights Reserved.</span> <span>&copy; GreenBasket Stores | {new Date().getFullYear()}</span>
+            <span>All Rights Reserved.</span> <span>&copy; TheGreenBasket Stores | {new Date().getFullYear()}</span>
           </div>
         </div>
       </footer>
