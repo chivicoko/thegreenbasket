@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteProduct, getProduct, updateProduct } from "../../../../../services/productService";
 
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
-
 export async function GET(
   req: NextRequest,
-  { params }: RouteContext
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
+
   const product = await getProduct(params.id);
 
   if (!product) {
@@ -25,8 +21,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: RouteContext
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
+
   const body = await req.json();
   const updated = await updateProduct(params.id, body);
 
@@ -42,8 +40,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: RouteContext
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
+
   const deleted = await deleteProduct(params.id);
 
   if (!deleted) {
