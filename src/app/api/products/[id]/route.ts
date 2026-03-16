@@ -3,11 +3,11 @@ import { deleteProduct, getProduct, updateProduct } from "../../../../../service
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
+  const { id } = await params;
 
-  const product = await getProduct(params.id);
+  const product = await getProduct(id);
 
   if (!product) {
     return NextResponse.json(
@@ -21,12 +21,12 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
+  const { id } = await params;
 
   const body = await req.json();
-  const updated = await updateProduct(params.id, body);
+  const updated = await updateProduct(id, body);
 
   if (!updated) {
     return NextResponse.json(
@@ -40,11 +40,11 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
+  const { id } = await params;
 
-  const deleted = await deleteProduct(params.id);
+  const deleted = await deleteProduct(id);
 
   if (!deleted) {
     return NextResponse.json(
