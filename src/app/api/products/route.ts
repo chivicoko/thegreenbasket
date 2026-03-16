@@ -32,9 +32,17 @@ export async function POST(req: NextRequest) {
     const product = createProduct(validated);
 
     return NextResponse.json(product, { status: 201 });
-  } catch (error: any) {
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
-      { error: error.message },
+      { error: "An unknown error occurred" },
       { status: 400 }
     );
   }
