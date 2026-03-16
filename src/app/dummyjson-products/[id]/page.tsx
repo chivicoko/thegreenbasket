@@ -38,7 +38,7 @@ const SingleProduct = () => {
           const product = await getDummyJsonProductById(id);
           console.log('Product: ', product);
           setProduct(product);
-          setCurrentImage(product.thumbnail);
+          setCurrentImage(product.images[0] ?? product.thumbnail);
         } catch (error) {
           console.error('Error fetching product:', error);
         }
@@ -113,23 +113,34 @@ const SingleProduct = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              {
-                product.images && product.images.map((img, index) => {
-                  return(
-                    <div key={index} onClick={() => handleProductImagesViews(product.id, img)} className='rounded-lg p-1 md:p-4 bg-zinc-50 flex items-center justify-center cursor-pointer'>
+              {product.images &&
+                product.images.map((img, index) => {
+                  const isActive = currentImage === img;
+
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => handleProductImagesViews(product.id, img)}
+                      className={`
+                        rounded-lg p-1 md:p-4 flex items-center justify-center cursor-pointer
+                        transition-all duration-200
+                        ${isActive
+                          ? "bg-primary/10 ring-2 ring-primary scale-105"
+                          : "bg-zinc-50 hover:ring-2 hover:ring-primary/40"}
+                      `}
+                    >
                       <div className="relative w-10 h-10 md:w-12 md:h-12">
                         <Image
-                          src={img ?? '/images/imagePlaceholder.jpeg'}
+                          src={img ?? "/images/imagePlaceholder.jpeg"}
                           alt="product extra preview"
                           fill
-                          className="object-cover rounded-lg hover:scale-105"
+                          className="object-cover rounded-lg"
                           sizes="(max-width: 768px) 100vw, 50vw"
                         />
                       </div>
                     </div>
-                  )
-                })
-              }
+                  );
+                })}
             </div>
           </div>
 
