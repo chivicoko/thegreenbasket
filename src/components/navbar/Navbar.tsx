@@ -55,13 +55,13 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
           <span className="relative w-8 h-8">
             <Image
               src="/images/logo.png"
-              alt="GreenBasket Store's Logo"
+              alt="TheGreenBasket Store's Logo"
               fill
               style={{ objectFit: 'cover' }}
               sizes="100%"
             />
           </span>
-          <span className='hidden md:block text-white text-xl md:text-2xl font-bold'>GreenBasket</span>
+          <span className='hidden md:block text-white text-xl md:text-2xl font-bold'>TheGreenBasket</span>
         </Link>
 
         <div className="bg-[#11192899] w-fit md:w-[40%] md:pl-3 flex items-center rounded-full focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 outline-none focus-within:shadow-[0_0_10px_0_rgba(142,68,173,0.5),0_0_20px_5px_rgba(142,68,173,0.05)]">
@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                           <span className="relative size-20 border rounded-md">
                             <Image
                               src={product.thumbnail || '/images/imagePlaceholder.jpeg'}
-                              alt="GreenBasket Store's Logo"
+                              alt="TheGreenBasket Store's Logo"
                               fill
                               className='rounded-md object-cover'
                               sizes="100%"
@@ -221,7 +221,7 @@ const Navbar: React.FC<NavbarProps> = ({ firstDivClasses, secondDivClasses }) =>
                           <span className="relative size-20 border rounded-md">
                             <Image
                               src={product.thumbnail || '/images/imagePlaceholder.jpeg'}
-                              alt="GreenBasket Store's Logo"
+                              alt="TheGreenBasket Store's Logo"
                               fill
                               className='rounded-md object-cover'
                               sizes="100%"
