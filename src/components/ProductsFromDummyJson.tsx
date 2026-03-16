@@ -12,6 +12,8 @@ import { Button } from './ui/button';
 import { MoveRight } from 'lucide-react';
 import { toast } from 'sonner';
 import FullPagination from './FullPagination';
+import Categories from './Categories';
+import CategorySelect from './CategorySelect';
 
 const ProductsFromDummyJson: React.FC = () => {
   const [currentProducts, setCurrentProducts] = useState<Product2[]>([]);
@@ -28,13 +30,6 @@ const ProductsFromDummyJson: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
-  console.log("category: ", category);
-
-  useEffect(() => {
-    if (pathName !== '/dummyjson-products') {
-      setCurrentProducts(products.slice(0, 5));
-    }
-  },[pathName, products]);
   
   useEffect(() => {
     const getData = async () => {
@@ -45,18 +40,37 @@ const ProductsFromDummyJson: React.FC = () => {
         const groceryProducts = res.products.filter(
           (product: Product2) => product.category === "groceries"
         );
-        setProducts(groceryProducts);
-        // console.log("groceryProducts: ", groceryProducts);
-        setTotalProducts(groceryProducts.length);
+
+        if (category && category !== 'all') {
+          const filteredProducts = groceryProducts.filter((product: Product2) =>
+            product.tags?.some((tag) => 
+              tag.toLowerCase() === category.toLowerCase()
+            )
+          );
+
+          setProducts(filteredProducts);
+          setTotalProducts(filteredProducts.length);
+        } else {
+          setProducts(groceryProducts);
+          setTotalProducts(groceryProducts.length);
+        }
+
       } catch (error) {
         toast.error(`Error fetching products: ${error}`);
       } finally {
         setLoading(false);
+        setCurrentPage(1); // reset pagination when category changes
       }
     };
 
     getData();
-  }, []);
+  }, [category]);
+  
+  useEffect(() => {
+    if (pathName !== '/dummyjson-products') {
+      setCurrentProducts(products.slice(0, 5));
+    }
+  }, [pathName, products]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -77,38 +91,56 @@ const ProductsFromDummyJson: React.FC = () => {
   return (
     <div className={`${pathName !== '/dummyjson-products' ? 'bg-[#fffbeb]' : ''} w-full pt-12 pb-20 px-4 lg:px-8 xl:px-20`}>
       <div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
-        <h3 className='text-xl lg:text-3xl mx-auto md:mx-0 font-bold text-primary'>{pathName === '/dummyjson-products' ? 'DummyJson Products' : 'Products from DummyJson API'}</h3>
-        <div className="w-full md:w-auto flex items-center justify-between gap-6 flex-wrap">
-          <ViewButton gridView={gridView} setGridView={setGridView} />
-          {pathName !== '/dummyjson-products' ? 
-          <Button 
-            variant={'ghost'}
-            onClick={() => router.push('/dummyjson-products')} 
-            className='text-dark_orange font-bold text-[0.95rem] gap-2 group cursor-pointer hover:bg-transparent' 
-          >
-            See more
-            <MoveRight className='transition-all duration-300 ease-in-out transform group-hover:translate-x-1 size-5' />
-          </Button>
-          : null
+        <h3 className='text-xl lg:text-3xl mx-auto md:mx-0 font-bold text-primary capitalize'>
+          {pathName === '/dummyjson-products' 
+          ? category ? `DummyJson Products (${category})` : 'DummyJson Products' 
+          : 'Products from DummyJson API'}
+        </h3>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <CategorySelect />
+          {
+            calculatedProducts?.length > 0 ? 
+              <div className="w-full md:w-auto flex items-center justify-between gap-6 flex-wrap">
+                <ViewButton gridView={gridView} setGridView={setGridView} />
+                {pathName !== '/dummyjson-products' ? 
+                  <Button 
+                    variant={'ghost'}
+                    onClick={() => router.push('/dummyjson-products')} 
+                    className='text-dark_orange font-bold text-[0.95rem] gap-2 group cursor-pointer hover:bg-transparent' 
+                  >
+                    See more
+                    <MoveRight className='transition-all duration-300 ease-in-out transform group-hover:translate-x-1 size-5' />
+                  </Button>
+                : null
+                }
+              </div>
+            : null
           }
         </div>
       </div>
 
-      {gridView ?
+      { calculatedProducts?.length > 0 ?
+        gridView ?
         <ProductGridView products={calculatedProducts} isDummyJsonData={true} /> 
         :
         <ProductListView products={calculatedProducts} isDummyJsonData={true} /> 
-      }
+        : (
+        <div className='w-full flex items-center justify-center pt-12'>
+          <p className='text-2xl'>No products.</p>
+        </div>
+        )}
 
-      {pathName === '/dummyjson-products' &&
-        <FullPagination
-          productsPerPage={productsPerPage}
-          handleRowsPerPageChange={handleRowsPerPageChange}
-          totalProducts={totalProducts}
-          totalPages={totalPages}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
+      {calculatedProducts?.length > 0 ?
+        pathName === '/dummyjson-products' &&
+          <FullPagination
+            productsPerPage={productsPerPage}
+            handleRowsPerPageChange={handleRowsPerPageChange}
+            totalProducts={totalProducts}
+            totalPages={totalPages}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        : null
       }
     </div>
   )

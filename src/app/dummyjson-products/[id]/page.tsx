@@ -5,8 +5,8 @@ import DiscountBadge from '@/components/DiscountBadge';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { useParams, usePathname } from 'next/navigation';
-import { INITIAL_PRODUCT_DATA, PRODUCT } from '@/lib/data';
+import { useParams } from 'next/navigation';
+import { INITIAL_PRODUCT_DATA } from '@/lib/data';
 import { Product2 } from '../../../../types';
 import { getDummyJsonProductById } from '@/api';
 import { Button } from '@/components/ui/button';
@@ -16,11 +16,10 @@ import DiscountCardTwo from '@/components/footer/DiscountCardTwo';
 import { useEcommerceStore } from '../../../../product-store';
 
 const SingleProduct = () => {  
-  const [product, setProduct] = useState<Product2>(INITIAL_PRODUCT_DATA); // Single product
+  const [product, setProduct] = useState<Product2>(INITIAL_PRODUCT_DATA);
   const [currentImage, setCurrentImage] = useState<string>('/images/imagePlaceholder.jpeg');
   const {
     addToCart,
-    removeFromCart,
     toggleWishlistBtn,
     isProductInWishlist,
     isProductInCart,
@@ -31,9 +30,6 @@ const SingleProduct = () => {
 
   const { id } = useParams();
 //   console.log("id: ", id);
-  
-  // Ensure params.id is a string
-  // const productId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   useEffect(() => {
     if (id) {

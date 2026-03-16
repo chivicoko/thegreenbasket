@@ -42,7 +42,7 @@ const WeeklyBestSellingProducts: React.FC = () => {
             return(
               <Button 
                 key={category.id} 
-                className={`${index === 0 ? 'bg-primary text-white' : 'bg-white hover:bg-primary text-primary hover:text-white'} py-2 px-4 font-semibold text-sm rounded-full shadow-md`}
+                className={`${index === 0 ? 'bg-primary text-white' : 'bg-white hover:bg-primary text-primary hover:text-white'} cursor-pointer py-2 px-4 font-semibold text-sm rounded-full shadow-md`}
               >
                 {category.name}
               </Button>
