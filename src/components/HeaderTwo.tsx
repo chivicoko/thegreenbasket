@@ -1,14 +1,11 @@
 "use client";
 
-import Image from 'next/image';
 import Navbar from './navbar/Navbar';
 import useScrollVisibility from '@/hooks/useScrollVisibility';
 import { usePathname, useRouter } from 'next/navigation';
 import { MoveLeft } from 'lucide-react';
 
 const HeaderTwo = () => {
-  // const { totalWishlistCount } = useWishlist();
-  // const { totalCartCount } = useCart();
   const isVisible = useScrollVisibility(85);
   const router = useRouter();
   const pathName = usePathname();

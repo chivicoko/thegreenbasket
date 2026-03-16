@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { INITIAL_PRODUCT_DATA, PRODUCT } from '@/lib/data';
+import { INITIAL_PRODUCT_DATA } from '@/lib/data';
 import { Product2 } from '../../../../types';
 import { getProductById } from '@/api';
 import DiscountBadge from '@/components/DiscountBadge';

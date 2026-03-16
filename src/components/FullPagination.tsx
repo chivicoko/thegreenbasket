@@ -1,20 +1,9 @@
 'use client';
 
-import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
 import React from 'react';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -53,25 +42,6 @@ const FullPagination = ({productsPerPage, handleRowsPerPageChange, totalProducts
                         </option>
                     ))}
                 </select>
-
-                {/* <Select
-                    value={productsPerPage.toString()}
-                    onValueChange={(value) => handleRowsPerPageChange(Number(value))}
-                >
-                    <SelectTrigger className="h-8 w-[70px] border rounded-md">
-                        <SelectValue />
-                    </SelectTrigger>
-
-                    <SelectContent side="top">
-                        {rowsOptions
-                        .filter(value => value <= totalProducts || value === 100)
-                        .map(value => (
-                            <SelectItem key={value} value={value.toString()}>
-                            {value}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select> */}
             </div>
 
             <span>out of {totalProducts}</span>

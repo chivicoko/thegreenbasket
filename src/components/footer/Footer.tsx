@@ -9,7 +9,7 @@ import { BriefcaseBusiness, ChevronRight, CircleQuestionMark, Gift, Github, Glob
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
 
 
 const myLinks = [

@@ -1,10 +1,9 @@
+'use client';
+
 import { Clock, Home, LogOut, Settings, X } from 'lucide-react'
 import Image from 'next/image'
-// import { Cancel, HomeOutlined, Logout, PunchClock, Settings } from '@mui/icons-material'
-// import Button from '../button/Button'
 import Link from 'next/link'
 import { Button } from '../ui/button'
-// import ButtonNeutral from '../button/ButtonNeutral'
 
 type MobileNavProps = {
     isOpen: boolean,
@@ -22,8 +21,8 @@ const MobileNav = ({isOpen, onHandleClose}: MobileNavProps) => {
 
       <ul className="flex relative h-full w-full flex-col items-center justify-center gap-4">
         {/* <button id="cancel" className="absolute top-4 right-8" onClick={onHandleClose}>❌</button> */}
-        <Button>
-            <X className='absolute top-10 right-10 transition-all duration-300 ease-in-out transform group-hover:-translate-x-1' />
+        <Button onClick={onHandleClose} className='bg-yellowish hover:bg-yellowish_hover cursor-pointer text-foreground absolute top-10 right-10 transition-all duration-300 ease-in-out transform group-hover:-translate-x-1'>
+            <X className='' />
         </Button>
         {/* <ButtonNeutral
             // onClick={onHandleClose}
@@ -57,7 +56,7 @@ const MobileNav = ({isOpen, onHandleClose}: MobileNavProps) => {
             </Link>
         </li>
         <li>
-            <Link href="/settings" title="settings" className="py-[0.5rem] px-[1rem] border-b-2 text-[16px] font-semibold text-primary border-transparent hover:border-primary transition-transform duration-300 flex items-center gap-2">
+            <Link href="/" title="settings" className="py-[0.5rem] px-[1rem] border-b-2 text-[16px] font-semibold text-primary border-transparent hover:border-primary transition-transform duration-300 flex items-center gap-2">
                 <Settings/>
                 <span>settings</span>
             </Link>
